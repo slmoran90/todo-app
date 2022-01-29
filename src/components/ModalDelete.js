@@ -28,14 +28,14 @@ const ModalDelete = ({ targetId, showModal, setShowModal }) => {
         <button
           type='button'
           className='btn btn-custom-primary'
-          onClick={ () => { setShowModal(false) } }
+          onClick={ () => handleDeleteTask(id)}
         >
           Atras
         </button>
         <button
           type='button'
           className='btn btn-danger'
-          onClick={() => handleDeleteTask(id)}
+          onClick={() => handleDeleteTask(id) }
         >
           Aceptar
         </button>

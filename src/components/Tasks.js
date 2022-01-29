@@ -3,19 +3,63 @@ import { collection, onSnapshot } from 'firebase/firestore'
 import db from '../firebaseConfig'
 import './styles.css'
 import { Card, CardHeader, CardBody, CardText, CardFooter, Button } from 'reactstrap'
-import ModalDelete from './ModalDelete'
+// import ModalDelete from './ModalDelete'
+import deleteTask from '../services/deleteTask'
+import Swal from 'sweetalert2'
+import 'animate.css'
 
 const Task = () => {
   const [tasksList, setTasksList] = useState([])
-  const [btnId, setBtnId] = useState({}) //eslint-disable-line
-  const [showModal, setShowModal] = useState(false)
+  const [taskId, setTaskId] = useState({}) //eslint-disable-line
+  // const [showModal, setShowModal] = useState(false)
 
-  const handleClickModal = (task) => {
-    setShowModal(!showModal)
+  const handleClickModal = (task) => { //eslint-disable-line
+    // setShowModal(!showModal)
 
-    setBtnId({
+    setTaskId({
       id: task.id,
       title: task.title
+    })
+  }
+
+  const handleDelete = (taskTitle, id) => {
+    const swalButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-custom-primary',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+
+    swalButtons.fire({
+      title: `Borrar ${taskTitle.toUpperCase()}`,
+      text: '¿Estás seguro de borrar la tarea?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Atrás',
+      reverseButtons: true,
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutDown'
+      }
+    }).then(result => {
+      if (result.isConfirmed) {
+        deleteTask(id)
+        swalButtons.fire({
+          title: '¡Borrado!',
+          text: `Se borro ${taskTitle.toUpperCase()}`,
+          icon: 'success',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutDown'
+          }
+        })
+      }
     })
   }
 
@@ -60,7 +104,7 @@ const Task = () => {
               </Button>
               <Button
                 color='danger'
-                onClick={ () => handleClickModal(task) }
+                onClick={ () => handleDelete(task.title, task.id) }
               >
                   Borrar
               </Button>
@@ -68,11 +112,11 @@ const Task = () => {
           </Card>
         )
       })}
-      <ModalDelete
-        targetId={ btnId }
+      {/* <ModalDelete
+        targetId={ taskId }
         showModal={ showModal }
         setShowModal= { setShowModal }
-      />
+      /> */}
     </>
   )
 }
