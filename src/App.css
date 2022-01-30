@@ -16,4 +16,5 @@
 
 .bg-color {
   background-color: #FAFAFA;
+  min-height: 100vh;
 }

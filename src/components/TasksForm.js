@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { addDoc, collection } from 'firebase/firestore'
 import db from '../firebaseConfig'
+import './styles.css'
 
 const TasksForm = () => {
   const [tasks, setTasks] = useState([])
@@ -22,6 +23,8 @@ const TasksForm = () => {
   }
 
   const handleSubmit = async (e) => {
+    const { target } = e
+
     e.preventDefault()
 
     try {
@@ -30,7 +33,8 @@ const TasksForm = () => {
       console.log(error)
     }
 
-    e.target.reset()
+    target.reset()
+    setTasks(null)
   }
 
   return (
@@ -73,7 +77,7 @@ const TasksForm = () => {
         </label>
       </div>
       <div className='d-flex justify-content-center mt-3'>
-        <button className="btn btn-primary">Enviar</button>
+        <button className="btn btn-custom-primary">Enviar</button>
       </div>
     </form>
   )

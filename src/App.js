@@ -5,7 +5,7 @@ import Tasks from './components/Tasks'
 
 function App () {
   return (
-    <div className='p-4 mt-4 bg-color'>
+    <div className='p-4 bg-color'>
       <div className="row">
         <div className="col-sm-12 col-md-6 container-fluid">
           <TasksForm/>
