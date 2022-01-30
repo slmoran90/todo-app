@@ -31,47 +31,6 @@ const Task = () => {
     })
   }
 
-  const handleDelete = (taskTitle, id) => {
-    const swalButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-custom-primary',
-        cancelButton: 'btn btn-danger'
-      },
-      buttonsStyling: false
-    })
-
-    swalButtons.fire({
-      title: `Borrar ${taskTitle.toUpperCase()}`,
-      text: '¿Estás seguro de borrar la tarea?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Aceptar',
-      cancelButtonText: 'Atrás',
-      reverseButtons: true,
-      showClass: {
-        popup: 'animate__animated animate__fadeInDown'
-      },
-      hideClass: {
-        popup: 'animate__animated animate__fadeOutDown'
-      }
-    }).then(result => {
-      if (result.isConfirmed) {
-        deleteTask(id)
-        swalButtons.fire({
-          title: '¡Borrado!',
-          text: `Se borro ${taskTitle.toUpperCase()}`,
-          icon: 'success',
-          showClass: {
-            popup: 'animate__animated animate__fadeInDown'
-          },
-          hideClass: {
-            popup: 'animate__animated animate__fadeOutDown'
-          }
-        })
-      }
-    })
-  }
-
   const capitalize = str => (str && str[0].toUpperCase() + str.slice(1)) || ''
 
   useEffect(() => {
