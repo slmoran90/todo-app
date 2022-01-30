@@ -1,24 +1,33 @@
 import React, { useState, useEffect } from 'react'
 import { collection, onSnapshot } from 'firebase/firestore'
+import deleteTask from '../services/deleteTask'
 import db from '../firebaseConfig'
 import './styles.css'
 import { Card, CardHeader, CardBody, CardText, CardFooter, Button } from 'reactstrap'
-// import ModalDelete from './ModalDelete'
-import deleteTask from '../services/deleteTask'
-import Swal from 'sweetalert2'
-import 'animate.css'
+import swal from '../services/sweetalertConfig'
 
 const Task = () => {
   const [tasksList, setTasksList] = useState([])
-  const [taskId, setTaskId] = useState({}) //eslint-disable-line
-  // const [showModal, setShowModal] = useState(false)
 
-  const handleClickModal = (task) => { //eslint-disable-line
-    // setShowModal(!showModal)
-
-    setTaskId({
-      id: task.id,
-      title: task.title
+  const handleDelete = (taskTitle, id) => {
+    swal(
+      `Borrar ${taskTitle.toUpperCase()}`,
+      '¿Estás seguro de borrar la tarea?',
+      'warning',
+      true,
+      '#0fb893f0',
+      '#dc3545'
+    ).then(result => {
+      if (result.isConfirmed) {
+        deleteTask(id)
+        swal(
+          `Se borro ${taskTitle.toUpperCase()}`,
+          '',
+          'success',
+          false,
+          '#0fb893f0'
+        )
+      }
     })
   }
 
@@ -90,15 +99,15 @@ const Task = () => {
             key={ task.id }
             className='mb-3 border'
           >
-            <CardHeader className='text-muted bg-light border border-light'>
-              <h3>{ capitalize(task.title) }</h3>
+            <CardHeader className='text-muted text-center bg-white border-2 border-light'>
+              <h3>{ task.title.toUpperCase() }</h3>
             </CardHeader>
             <CardBody className='bg-white'>
               <CardText className='font-light'>
                 { capitalize(task.description) }
               </CardText>
             </CardBody>
-            <CardFooter className='d-flex justify-content-end gap-2 pt-1 border border-0 bg-white'>
+            <CardFooter className='d-flex justify-content-end gap-2 pt-1 border-0 bg-white'>
               <Button className='btn-custom-primary'>
                 Editar
               </Button>
@@ -112,11 +121,6 @@ const Task = () => {
           </Card>
         )
       })}
-      {/* <ModalDelete
-        targetId={ taskId }
-        showModal={ showModal }
-        setShowModal= { setShowModal }
-      /> */}
     </>
   )
 }
