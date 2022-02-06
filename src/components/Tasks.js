@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import { collection, onSnapshot } from 'firebase/firestore'
 import deleteTask from '../services/deleteTask'
@@ -6,7 +7,7 @@ import './styles.css'
 import { Card, CardHeader, CardBody, CardText, CardFooter, Button } from 'reactstrap'
 import swal from '../services/sweetalertConfig'
 
-const Task = () => {
+const Task = ({ setCurrentId }) => {
   const [tasksList, setTasksList] = useState([])
 
   const handleDelete = (taskTitle, id) => {
@@ -27,6 +28,47 @@ const Task = () => {
           false,
           '#0fb893f0'
         )
+      }
+    })
+  }
+
+  const handleDelete = (taskTitle, id) => {
+    const swalButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-custom-primary',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+
+    swalButtons.fire({
+      title: `Borrar ${taskTitle.toUpperCase()}`,
+      text: '¿Estás seguro de borrar la tarea?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Atrás',
+      reverseButtons: true,
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutDown'
+      }
+    }).then(result => {
+      if (result.isConfirmed) {
+        deleteTask(id)
+        swalButtons.fire({
+          title: '¡Borrado!',
+          text: `Se borro ${taskTitle.toUpperCase()}`,
+          icon: 'success',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutDown'
+          }
+        })
       }
     })
   }
@@ -67,14 +109,22 @@ const Task = () => {
               </CardText>
             </CardBody>
             <CardFooter className='d-flex justify-content-end gap-2 pt-1 border-0 bg-white'>
-              <Button className='btn-custom-primary'>
-                Editar
+              <Button
+                className='btn-custom-primary d-flex gap-2 align-items-center'
+                onClick={ () => {
+                  setCurrentId(task.id)
+                }}
+              >
+                <span>Editar</span>
+                <i className='far fa-edit fa-lg'/>
               </Button>
               <Button
                 color='danger'
                 onClick={ () => handleDelete(task.title, task.id) }
+                className='d-flex gap-2 align-items-center'
               >
-                  Borrar
+                <span>Borrar</span>
+                <i className='far fa-trash-alt fa-lg'/>
               </Button>
             </CardFooter>
           </Card>
