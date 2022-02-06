@@ -1,26 +1,46 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { addDoc, collection } from 'firebase/firestore'
+import { Button } from 'reactstrap'
+import getTask from '../services/getTask'
+import updateTask from '../services/updateTask'
 import db from '../firebaseConfig'
 import './styles.css'
 
-const TasksForm = () => {
-  const [tasks, setTasks] = useState([])
+// eslint-disable-next-line react/prop-types
+const TasksForm = ({ currentId, setCurrentId }) => {
+  const [task, setTask] = useState({})
 
   const handleChange = (e) => {
     const { name, value } = e.target
 
-    if (name === 'title') {
-      setTasks({
-        ...tasks,
-        [name]: value
+    setTask({
+      ...task,
+      [name]: value
+    })
+  }
+
+  const getEditTask = async (currentId) => {
+    try {
+      const task = await getTask(currentId)
+      setTask({
+        ...task,
+        id: currentId
       })
-    } else if (name === 'description') {
-      setTasks({
-        ...tasks,
-        [name]: value
-      })
+    } catch (error) {
+      console.log(error)
     }
   }
+
+  useEffect(() => {
+    if (currentId !== null) {
+      getEditTask(currentId)
+    } else {
+      setTask({
+        title: '',
+        description: ''
+      })
+    }
+  }, [currentId])
 
   const handleSubmit = async (e) => {
     const { target } = e
@@ -28,13 +48,17 @@ const TasksForm = () => {
     e.preventDefault()
 
     try {
-      await addDoc(collection(db, 'tasks'), tasks)
+      if (currentId === null) {
+        await addDoc(collection(db, 'tasks'), task)
+      } else {
+        await updateTask(task)
+        setCurrentId(null)
+      }
     } catch (error) {
       console.log(error)
     }
-
     target.reset()
-    setTasks(null)
+    setTask(null)
   }
 
   return (
@@ -46,14 +70,15 @@ const TasksForm = () => {
         <input
           type='text'
           className='form-control bg-light'
-          id='tasksName'
+          id='taskName'
           autoFocus={true}
           placeholder='Nombre de la tarea'
           name='title'
-          onChange={(e) => handleChange(e, 'title')}
+          value={task?.title || ''}
+          onChange={(e) => handleChange(e)}
         />
         <label
-          htmlFor='tasksName'
+          htmlFor='taskName'
           className='form-label text-muted'
         >
           Tarea
@@ -61,23 +86,37 @@ const TasksForm = () => {
       </div>
       <div className='form-floating'>
         <textarea
-          id='tasksDescription'
+          id='taskDescription'
           className='form-control bg-light'
           style={ { height: '100px', resize: 'none' } }
           placeholder='Descripción'
           name='description'
-          onChange={(e) => handleChange(e, 'description')}
+          value={task?.description || ''}
+          onChange={(e) => handleChange(e)}
         >
         </textarea>
         <label
-          htmlFor='tasksDescription'
+          htmlFor='taskDescription'
           className='form-label text-muted'
         >
           Descripción
         </label>
       </div>
       <div className='d-flex justify-content-center mt-3'>
-        <button className="btn btn-custom-primary">Enviar</button>
+        <Button
+          className="btn-custom-primary d-flex gap-2 align-items-center"
+        >
+          { currentId === null
+            ? <span className='d-flex gap-2 align-items-center'>
+              Guardar
+              <i className='far fa-save fa-lg'/>
+            </span>
+            : <span className='d-flex gap-2 align-items-center'>
+              Editar
+              <i className='far fa-edit fa-lg'/>
+            </span>
+          }
+        </Button>
       </div>
     </form>
   )
