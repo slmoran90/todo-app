@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from 'firebase/app'
-import { getFirestore } from 'firebase/firestore'
+import { initializeApp } from "firebase/app"
+import { getFirestore } from "firebase/firestore"
 
 const {
   REACT_APP_FIREBASE_APIKEY,
@@ -8,7 +8,7 @@ const {
   REACT_APP_FIREBASE_PROJECTID,
   REACT_APP_FIREBASE_STORAGEBUCKET,
   REACT_APP_FIREBASE_MESSAGINGSENDERID,
-  REACT_APP_FIREBASE_APPID
+  REACT_APP_FIREBASE_APPID,
 } = process.env
 
 const firebaseConfig = {
@@ -17,7 +17,7 @@ const firebaseConfig = {
   projectId: REACT_APP_FIREBASE_PROJECTID,
   storageBucket: REACT_APP_FIREBASE_STORAGEBUCKET,
   messagingSenderId: REACT_APP_FIREBASE_MESSAGINGSENDERID,
-  appId: REACT_APP_FIREBASE_APPID
+  appId: REACT_APP_FIREBASE_APPID,
 }
 
 // Initialize Firebase
