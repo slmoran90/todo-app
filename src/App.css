@@ -1,20 +1,60 @@
 @font-face {
-  font-family: 'Nunito';
-  src: local('Nunito'), url('assets/fonts/Nunito-Regular.ttf') format('truetype');
+  font-family: "Nunito";
+  src: local("Nunito"),
+    url("assets/fonts/Nunito-Regular.ttf") format("truetype");
   font-weight: 400;
 }
 
 @font-face {
-  font-family: 'Nunito';
-  src: local('Nunito'), url('assets/fonts/Nunito-Light.ttf') format('truetype');
+  font-family: "Nunito";
+  src: local("Nunito"), url("assets/fonts/Nunito-Light.ttf") format("truetype");
   font-weight: 300;
 }
 
 * {
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
+}
+
+/* .app-container {
+  background-image: url('./assets/img/bg-pc.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+} */
+.app-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.bg-img img {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+  filter: blur(5px);
+}
+
+.app-title {
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  background-color: #17B695;
+  opacity: .75;
+  width: 25%;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .bg-color {
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   min-height: 100vh;
 }
