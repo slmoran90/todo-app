@@ -1,16 +1,24 @@
 .btn-custom-primary {
   background-color: #0fb893d0 !important;
-  border:1px solid #0fb893d0 !important;
+  border: 1px solid #0fb893d0 !important;
   color: #fff !important;
 }
 
 .btn-custom-primary:hover {
   background-color: #0fb893f0 !important;
-  border:1px solid #0fb893f0 !important;
+  border: 1px solid #0fb893f0 !important;
   color: #fff !important;
 }
 
 .font-light {
   font-weight: 400;
   font-size: 18px;
+}
+
+.card-container {
+  background-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.bg-info-card {
+  background-color: rgb(23, 182, 149, .75) !important;
 }

@@ -1,7 +1,14 @@
-import Swal from 'sweetalert2'
-import 'animate.css'
+import Swal from "sweetalert2"
+import "animate.css"
 
-const swal = (title, text, icon, showCancelButton, colorBtnConfirm, colorBtnCancel) => {
+const swal = (
+  title,
+  text,
+  icon,
+  showCancelButton,
+  colorBtnConfirm,
+  colorBtnCancel
+) => {
   return Swal.fire({
     title,
     text,
@@ -9,15 +16,15 @@ const swal = (title, text, icon, showCancelButton, colorBtnConfirm, colorBtnCanc
     showCancelButton,
     confirmButtonColor: colorBtnConfirm,
     cancelButtonColor: colorBtnCancel,
-    confirmButtonText: 'Aceptar',
-    cancelButtonText: 'Atrás',
+    confirmButtonText: "Aceptar",
+    cancelButtonText: "Atrás",
     reverseButtons: true,
     showClass: {
-      popup: 'animate__animated animate__fadeInDown'
+      popup: "animate__animated animate__fadeIn",
     },
     hideClass: {
-      popup: 'animate__animated animate__fadeOutDown'
-    }
+      popup: "animate__animated animate__fadeOut",
+    },
   })
 }
 
